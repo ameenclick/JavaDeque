@@ -1,7 +1,20 @@
 public class Deque<Item> implements Iterable<Item> {
 
+    private Node first;
+    private Node last;
+    private int length;
+
+    private class Node{
+        Item item;
+        Node next;
+    }
+    
     // construct an empty deque
-    public Deque()
+    public Deque(){
+        first=null;
+        last=null;
+        length=0;
+    }
 
     // is the deque empty?
     public boolean isEmpty()
