@@ -1,3 +1,9 @@
+import java.util.Iterator;
+import java.util.Scanner;
+import java.util.NoSuchElementException;
+import java.io.File;
+import java.io.FileNotFoundException; 
+
 public class Deque<Item> implements Iterable<Item> {
 
     private Node first;
@@ -111,6 +117,44 @@ public class Deque<Item> implements Iterable<Item> {
 
     // unit testing (required)
     public static void main(String[] args)
-
+    {
+        try{
+            File file = new File("C:\\GitFolder\\ADS\\M2\\QUEUES\\test1.txt");
+        Scanner sc= new Scanner(file);
+        Deque<String> dq= new Deque<>();
+        boolean toggle=true;
+        while(sc.hasNextLine())
+        {
+            if(toggle)
+            {
+                dq.addFirst(sc.nextLine());
+                toggle = !toggle;
+            }
+            else{
+                dq.addLast(sc.nextLine());
+                toggle = !toggle;
+            }
+        }
+        Iterator<String> Ival= dq.iterator();
+        System.out.println("Added Alternative first and last");
+        while(Ival.hasNext())
+        {
+            System.out.print(Ival.next()+" ");
+        }
+        dq.removeLast();
+        dq.removeFirst();
+        assert !dq.isEmpty() : "Empty queue detected";
+        Ival= dq.iterator();
+        System.out.println("\nAfter removing 1 from last and first");
+        while(Ival.hasNext())
+        {
+            System.out.print(Ival.next()+" ");
+        }
+        sc.close();
+        }catch(FileNotFoundException e){
+           System.out.println("An error occured while reading file.");
+           e.printStackTrace();
+       }
+    }
 }
 
