@@ -22,7 +22,9 @@ public class Deque<Item> implements Iterable<Item> {
     }
 
     // return the number of items on the deque
-    public int size()
+    public int size(){
+        return length;
+    }
 
     // add the item to the front
     public void addFirst(Item item){
@@ -58,9 +60,29 @@ public class Deque<Item> implements Iterable<Item> {
         if(isEmpty()) last = first;
         return item;
     }
-    
+
     // remove and return the item from the back
     public Item removeLast()
+    {
+        if(isEmpty())  throw new NoSuchElementException();
+        Item item = last.item;
+        if(first.next==null){
+            last=null;
+            first=null;
+        }  
+        else
+        {
+            Node temp= first;
+            while(temp.next!=last)
+            {
+                temp=temp.next;
+            }   
+            last=temp;
+            last.next=null;
+        }
+        length--;
+        return item;
+    }
 
     // return an iterator over items in order from front to back
     public Iterator<Item> iterator()
