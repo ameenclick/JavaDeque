@@ -17,13 +17,23 @@ public class Deque<Item> implements Iterable<Item> {
     }
 
     // is the deque empty?
-    public boolean isEmpty()
+    public boolean isEmpty(){
+        return first == null || last == null;
+    }
 
     // return the number of items on the deque
     public int size()
 
     // add the item to the front
-    public void addFirst(Item item)
+    public void addFirst(Item item){
+        if(item==null) throw new IllegalArgumentException(); 
+        Node oldfirst = first;
+        first = new Node();
+        first.item = item;
+        first.next = oldfirst;
+        length++;
+        if(last == null) last = first;
+    }
 
     // add the item to the back
     public void addLast(Item item)
