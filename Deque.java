@@ -86,6 +86,28 @@ public class Deque<Item> implements Iterable<Item> {
 
     // return an iterator over items in order from front to back
     public Iterator<Item> iterator()
+    {
+        return new dQueueIterator();
+    }
+
+    private class dQueueIterator implements Iterator<Item>
+    {
+        private Node current = first;
+        public boolean hasNext(){
+            return current != null;
+        }
+        public void remove()
+        {/*Unsupported Operation Exception*/
+                throw new UnsupportedOperationException();
+        }
+        public Item next()
+        {
+            if (!hasNext()) throw new NoSuchElementException();
+            Item fitem = current.item;
+            current = current.next;
+            return fitem;
+        }
+    }
 
     // unit testing (required)
     public static void main(String[] args)
