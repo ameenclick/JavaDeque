@@ -50,7 +50,15 @@ public class Deque<Item> implements Iterable<Item> {
 
     // remove and return the item from the front
     public Item removeFirst()
-
+    {
+        if(isEmpty())  throw new NoSuchElementException();
+        Item item = first.item;
+        first = first.next;
+        length--;
+        if(isEmpty()) last = first;
+        return item;
+    }
+    
     // remove and return the item from the back
     public Item removeLast()
 
