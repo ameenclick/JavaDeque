@@ -45,9 +45,10 @@ public class DequeArray<Item> implements Iterable<Item>  {
     public void addFirst(Item item)
     {
         if (n == q.length) resize(2*q.length);   // double size of array if necessary
-        for(int i=n;i>0;i++)
+        //Memory usage si higher and Time Complexity is in o(N)
+        for(int i=n;i>0;i--)
         {
-            q[i+1]=q[i];
+            q[i]=q[i-1];
         }
         q[0]=item;
         n++;
@@ -104,7 +105,8 @@ public class DequeArray<Item> implements Iterable<Item>  {
         {
             dq.addLast(sc.nextLine());
         }
-        dq.removeFirst();
+        System.out.println(dq.size());
+        dq.addFirst("7");
         Iterator<String> Ival= dq.iterator();
         while(Ival.hasNext())
         {
