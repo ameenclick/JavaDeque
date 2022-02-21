@@ -4,7 +4,7 @@ import java.util.NoSuchElementException;
 import java.io.File;
 import java.io.FileNotFoundException; 
 
-public class DequeArray implements Iterable<Item>  {
+public class DequeArray<Item> implements Iterable<Item>  {
     private static final int INIT_CAPACITY = 8;
 
     private Item[] q;       // queue elements
@@ -42,12 +42,22 @@ public class DequeArray implements Iterable<Item>  {
         last  = n;
     }
 
-    // public void addFirst(Item item)
+    public void addFirst(Item item)
+    {
+        if (n == q.length) resize(2*q.length);   // double size of array if necessary
+        for(int i=n;i>0;i++)
+        {
+            q[i+1]=q[i];
+        }
+        q[0]=item;
+        n++;
+    }
+
     public void addLast(Item item)
     {
         if (n == q.length) resize(2*q.length);   // double size of array if necessary
         q[last++] = item;                        // add item
-        if (last == q.length) last = 0;          // wrap-around
+        //if (last == q.length) last = 0;          // wrap-around
         n++;
     }
 
@@ -67,15 +77,39 @@ public class DequeArray implements Iterable<Item>  {
     // public Item removeLast()
 
     public Iterator<Item> iterator() {
-        return new DequeArray();
+        return new ArrayIterator();
+    }
+
+    private class ArrayIterator implements Iterator<Item>{
+        private int i=0;
+        public boolean hasNext(){
+            return i < n;
+        }
+        public void remove() { throw new UnsupportedOperationException();}
+        public Item next(){
+            if(!hasNext()) throw new NoSuchElementException();
+            Item item = q[(i + first) % q.length];
+            i++;
+            return item;
+        }
     }
 
     public static void main(String[] args)
     {
         try{
-            File file = new File("C:\\GitFolder\\ADS\\M2\\QUEUES\\test1.txt");
+            File file = new File("D:\\MSIT-IIITH\\ADS\\JavaDeque\\test1.txt");
         Scanner sc= new Scanner(file);
-        Deque<String> dq= new Deque<String>();
+        DequeArray<String> dq= new DequeArray<String>();
+        while(sc.hasNextLine())
+        {
+            dq.addLast(sc.nextLine());
+        }
+        dq.removeFirst();
+        Iterator<String> Ival= dq.iterator();
+        while(Ival.hasNext())
+        {
+            System.out.print(Ival.next()+" ");
+        }
 
         }catch(FileNotFoundException e){
             System.out.println("An error occured while reading file.");
