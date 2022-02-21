@@ -20,7 +20,10 @@ public class DequeArray implements Iterable<Item>  {
         last = 0;
     }
 
-    // public boolean isEmpty()
+    public boolean isEmpty()
+    {
+        return n==0;
+    }
 
     public int size()
     {
