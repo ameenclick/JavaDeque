@@ -51,6 +51,7 @@ public class DequeArray<Item> implements Iterable<Item>  {
             q[i]=q[i-1];
         }
         q[0]=item;
+        last++;
         n++;
     }
 
@@ -58,7 +59,7 @@ public class DequeArray<Item> implements Iterable<Item>  {
     {
         if (n == q.length) resize(2*q.length);   // double size of array if necessary
         q[last++] = item;                        // add item
-        //if (last == q.length) last = 0;          // wrap-around
+        if (last == q.length) last = 0;          // wrap-around
         n++;
     }
 
@@ -69,13 +70,23 @@ public class DequeArray<Item> implements Iterable<Item>  {
         q[first] = null;                            // to avoid loitering
         n--;
         first++;
+        last--;
         if (first == q.length) first = 0;           // wrap-around
         // shrink size of array if necessary
         if (n > 0 && n == q.length/4) resize(q.length/2); 
         return item;
     }
 
-    // public Item removeLast()
+    public Item removeLast()
+    {
+        if (isEmpty()) throw new NoSuchElementException("Queue underflow");
+        Item item=q[last];
+        n--;
+        last--;
+        // shrink size of array if necessary
+        if (n > 0 && n == q.length/4) resize(q.length/2); 
+        return item;
+    }
 
     public Iterator<Item> iterator() {
         return new ArrayIterator();
@@ -99,20 +110,37 @@ public class DequeArray<Item> implements Iterable<Item>  {
     {
         try{
             File file = new File("D:\\MSIT-IIITH\\ADS\\JavaDeque\\test1.txt");
-        Scanner sc= new Scanner(file);
-        DequeArray<String> dq= new DequeArray<String>();
-        while(sc.hasNextLine())
-        {
-            dq.addLast(sc.nextLine());
-        }
-        System.out.println(dq.size());
-        dq.addFirst("7");
-        Iterator<String> Ival= dq.iterator();
-        while(Ival.hasNext())
-        {
-            System.out.print(Ival.next()+" ");
-        }
-
+            Scanner sc= new Scanner(file);
+            DequeArray<String> dq= new DequeArray<>();
+            boolean toggle=true;
+            while(sc.hasNextLine())
+            {
+                if(toggle)
+                {
+                    dq.addFirst(sc.nextLine());
+                    toggle = !toggle;
+                }
+                else{
+                    dq.addLast(sc.nextLine());
+                    toggle = !toggle;
+                }
+            }
+            Iterator<String> Ival= dq.iterator();
+            System.out.println("Added Alternative first and last");
+            while(Ival.hasNext())
+            {
+                System.out.print(Ival.next()+" ");
+            }
+            dq.removeLast();
+            dq.removeFirst();
+            assert !dq.isEmpty() : "Empty queue detected";
+            Ival= dq.iterator();
+            System.out.println("\nAfter removing 1 from last and first");
+            while(Ival.hasNext())
+            {
+                System.out.print(Ival.next()+" ");
+            }
+            sc.close();
         }catch(FileNotFoundException e){
             System.out.println("An error occured while reading file.");
             e.printStackTrace();

@@ -119,7 +119,7 @@ public class Deque<Item> implements Iterable<Item> {
     public static void main(String[] args)
     {
         try{
-            File file = new File("C:\\GitFolder\\ADS\\M2\\QUEUES\\test1.txt");
+            File file = new File("D:\\MSIT-IIITH\\ADS\\JavaDeque\\test1.txt");
         Scanner sc= new Scanner(file);
         Deque<String> dq= new Deque<>();
         boolean toggle=true;
